@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.env
+.env.*
+!.env.example
+backups/
+runtime/
+*.sqlite3-wal
+*.sqlite3-shm
+artifacts/*.png
+artifacts/*.zip

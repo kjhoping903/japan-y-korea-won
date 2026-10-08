@@ -1,0 +1,29 @@
+services:
+  board:
+    build: .
+    restart: unless-stopped
+    environment:
+      PUBLIC_ORIGIN: "https://${BOARD_DOMAIN:?Set BOARD_DOMAIN to your actual domain}"
+      DB_PATH: /data/fx.sqlite3
+    volumes:
+      - fx-data:/data
+    expose:
+      - "8000"
+  https:
+    image: caddy:2
+    restart: unless-stopped
+    environment:
+      BOARD_DOMAIN: "${BOARD_DOMAIN:?Set BOARD_DOMAIN to your actual domain}"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      - board
+volumes:
+  fx-data:
+  caddy-data:
+  caddy-config:

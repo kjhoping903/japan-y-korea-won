@@ -1,0 +1,3 @@
+{$BOARD_DOMAIN} {
+    reverse_proxy board:8000
+}
