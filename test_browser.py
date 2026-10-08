@@ -35,14 +35,14 @@ def main():
         expect(page.locator('#tooltip')).to_contain_text(current['display_value'])
         results.append({'check':'real fetch, schema-backed persisted table/graph/value and keyboard point','passed':True,'actual_dates':live['actual_dates'],'actual_value':current['display_value']})
         page.screenshot(path=ARTIFACTS/'actual-desktop.png',full_page=True)
-    
+
         def click(key):
             page.locator('#fixture-T04-'+key).click()
             expect(page.locator('#resetReplay')).to_be_enabled()
             out=context.request.get(BASE+'/api/replay').json()
             assert out['expected_check']['passed'],out['expected_check']
             return out
-    
+
         def baseline():
             page.locator('#resetReplay').click()
             expect(page.locator('#replayCount')).to_have_text('합성 기록 0건')
@@ -51,7 +51,7 @@ def main():
             assert a['current']['first_fetched_at']==b['current']['first_fetched_at']
             expect(page.locator('#replayTimes')).to_contain_text('출처 시각 미제공')
             return a,b
-    
+
         a,b=baseline()
         repeat=click('NORMAL-D1-B')
         assert len(repeat['records'])==1
@@ -60,7 +60,7 @@ def main():
         expect(page.locator('#replayCount')).to_have_text('합성 기록 2건')
         expect(page.locator('#replayChange')).to_contain_text('15.00pt 증가')
         results.append({'check':'official D1-A,D1-B,D1-B,D2 via UI; stable ID/time and 1->2 rows','passed':True})
-    
+
         for key,code in [('TIMEOUT','timeout'),('AUTH-401','auth'),('RATE-429','rate_limit'),('OFFLINE','offline'),('SCHEMA-BREAK','schema_error')]:
             _,prior=baseline();out=click(key)
             assert out['records']==prior['records']
@@ -70,7 +70,7 @@ def main():
             expect(page.locator('#retryReplay')).to_be_enabled()
             if code=='rate_limit':expect(page.locator('#replayNotice')).to_contain_text('60초')
             results.append({'check':'official UI failure '+code+' preserves value/rows/normal time','passed':True})
-    
+
         page.locator('#startTimeoutTrial').click()
         expect(page.locator('#replayStatus')).to_have_text('stale / timeout')
         expect(page.locator('#retryReplay')).to_be_enabled()
@@ -85,7 +85,7 @@ def main():
         assert context.request.get(BASE+'/api/records').json()==live
         assert errors==[],errors
         results.append({'check':'UI retry recovers once; repeated recovery no duplicate; live unchanged after all replay/reset','passed':True})
-    
+
         # A second clean browser context has its own synthetic session and shares server live data.
         second=browser.new_context(viewport={'width':390,'height':844},is_mobile=True,has_touch=True)
         phone=second.new_page();phone.goto(BASE)
@@ -100,9 +100,9 @@ def main():
         phone.screenshot(path=ARTIFACTS/'actual-mobile.png',full_page=True)
         results.append({'check':'clean context reads existing live DB; replay isolated; mobile fits viewport; keyboard focus','passed':True})
         second.close();context.close();browser.close()
-    
+
     (ARTIFACTS/'browser-results.json').write_text(json.dumps({'public_https_access_tested':False,'local_browser_checks':results},ensure_ascii=False,indent=2),encoding='utf-8')
     print(json.dumps({'browser_checks':len(results),'passed':all(r['passed'] for r in results),'actual_dates':live['actual_dates']},ensure_ascii=False))
-    
+
 
 if __name__=="__main__":main()
