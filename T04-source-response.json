@@ -1,0 +1,9 @@
+﻿{
+    "retrieved_at":  "2026-10-08T06:29:46.9630258+00:00",
+    "source_url":  "https://api.frankfurter.dev/v2/providers/ecb/rate/jpy/krw",
+    "http_status":  200,
+    "access_control_allow_origin":  "*",
+    "raw_response":  "{\"date\":\"2026-10-07\",\"base\":\"JPY\",\"quote\":\"KRW\",\"rate\":8.4606}",
+    "is_app_daily_record":  false,
+    "is_platform_receipt":  false
+}

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>오늘의 엔화 환율</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f4f6fa;color:#19283e;font-family:system-ui,sans-serif;line-height:1.6}main{max-width:1050px;margin:auto;padding:28px 18px}h1{font-size:30px;margin:0}h2{font-size:21px}section{background:white;border:1px solid #dce3ed;border-radius:16px;padding:24px;margin:20px 0}button{background:#174fc6;color:white;border:0;border-radius:9px;padding:12px 18px;font:inherit;cursor:pointer}button:disabled{opacity:.6}#value{font-size:clamp(25px,5vw,42px);font-weight:700;margin:14px 0}small,.muted{color:#506079}#notice{background:#fff3d4;padding:12px;border-radius:8px}a{color:#174fc6}.scroll{overflow-x:auto}table{border-collapse:collapse;width:100%;white-space:nowrap;font-size:14px}td,th{text-align:left;border-bottom:1px solid #dce3ed;padding:12px 10px}pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px}#plot{width:100%;min-width:560px;height:auto}circle{cursor:pointer;outline:none}circle:hover,circle:focus{stroke:#182c51;stroke-width:4}#tooltip{padding:12px;background:#edf3ff;min-height:60px;border-radius:8px}#chartMessage{color:#506079}details{margin-top:16px} @media(max-width:600px){section{padding:16px}main{padding:20px 12px}h1{font-size:26px}}
+</style>
+<main>
+<header><div class="muted">JPY → KRW · 일별 기준환율</div><h1>오늘의 엔화 환율</h1></header>
+<section aria-live="polite"><button id="refresh">환율 조회 및 저장</button><div id="value">저장된 값 없음</div><div id="change"></div><p id="times"></p><p id="notice" hidden></p>
+<p>100 JPY에 해당하는 KRW 금액 · 단위: KRW/100 JPY</p>
+<p class="muted">출처: Frankfurter API의 ECB 일별 기준환율. ECB는 영업일 약 16:00 CET에 갱신하며 TARGET 휴무일에는 발표하지 않습니다. API 반영에는 지연이 있을 수 있습니다. 실시간 환율이 아니며 은행의 현찰 매매율과 다릅니다.</p>
+<p class="muted">출처는 관측 날짜만 제공합니다. 정확한 관측 시각은 제공되지 않으며 조회 시각과 구분합니다. 주말·휴일에도 조회에 성공하면 원천 응답을 그대로 해당 KST 날짜에 저장합니다. 자동 조회는 없으며 버튼으로 기록합니다.</p>
+<a href="https://frankfurter.dev/" target="_blank" rel="noopener">API 공식 문서</a> · <a href="https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html" target="_blank" rel="noopener">ECB 갱신 안내</a>
+<details><summary>환산 공식 · 원자료 · 저장값 대조</summary><pre id="audit">기록 없음</pre></details>
+</section>
+<section><h2>100엔의 원화 환산값 변화</h2><p class="muted">X축: 조회 날짜 (Asia/Seoul) · Y축: 100 JPY에 해당하는 원화 금액 (KRW)</p><p id="chartMessage"></p><div class="scroll"><svg id="plot" viewBox="0 0 850 330" role="img" aria-label="저장 기록의 일별 환율 그래프"></svg></div><div id="tooltip" aria-live="polite">점을 선택하거나 마우스를 올리면 기록을 확인할 수 있습니다.</div><p class="muted">Y축은 저장값 주변 범위로 확대됩니다. 축의 최솟값·최댓값과 눈금을 확인하세요. 기록이 없는 날짜의 값을 생성하거나 보간하지 않습니다. 연결선은 저장 기록 사이의 추세만 나타냅니다.</p></section>
+<section><h2>일별 저장 기록</h2><p>같은 KST 날짜의 마지막 정상 조회를 보관합니다. 표의 변화는 직전 저장 날짜와 비교합니다.</p><div class="scroll"><table><thead><tr><th>조회 날짜 (KST)</th><th>100 JPY 환산값 (KRW)</th><th>변화</th><th>출처 관측 날짜 / 시각</th><th>마지막 정상 조회 (KST)</th></tr></thead><tbody id="rows"></tbody></table></div><details><summary>정밀도 유지 저장 기록 다운로드</summary><button id="download">JSON 다운로드</button><p>normalized_value는 소수점 문자열로 저장합니다. 표시와 변화량의 반올림은 저장 후 수행합니다.</p></details></section>
+</main>
+<script>
+let records=[];
+const el=id=>document.getElementById(id);
+const stamp=s=>s?new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(new Date(s))+' KST':'제공 안 됨';
+function pointInfo(r){el('tooltip').textContent=r.query_date+' · 100 JPY = '+r.display_value+' KRW · 출처 관측: '+r.source_observed_date+' (시각 미제공) · 마지막 정상 조회: '+stamp(r.queried_at)+' · '+r.daily_comparison}
+function svgNode(tag,attrs,text){let n=document.createElementNS('http://www.w3.org/2000/svg',tag);Object.entries(attrs).forEach(([k,v])=>n.setAttribute(k,v));if(text!==undefined)n.textContent=text;return n}
+function graph(){
+ const svg=el('plot');svg.replaceChildren();el('tooltip').textContent='점을 선택하거나 마우스를 올리면 기록을 확인할 수 있습니다.';
+ el('chartMessage').textContent=records.length===0?'아직 저장된 환율이 없습니다.':records.length===1?'다른 KST 날짜의 기록을 기다리고 있습니다.':'저장 기록 '+records.length+'건 · 날짜순';
+ svg.hidden=!records.length;if(!records.length)return;
+ const ys=records.map(r=>Number(r.normalized_value)),min=Math.min(...ys),max=Math.max(...ys),pad=Math.max((max-min)*.15,1),step=Math.pow(10,Math.floor(Math.log10((max-min+pad*2)/4)));
+ const low=Math.floor((min-pad)/step)*step,high=Math.ceil((max+pad)/step)*step;
+ const dateMs=s=>Date.parse(s+'T00:00:00+09:00'),first=dateMs(records[0].query_date),last=dateMs(records.at(-1).query_date);
+ const x=r=>records.length===1?465:100+(dateMs(r.query_date)-first)/(last-first)*710,y=r=>265-(Number(r.normalized_value)-low)/(high-low)*230;
+ svg.append(svgNode('text',{x:100,y:20,fill:'#19283e','font-size':14},'KRW / 100 JPY'));
+ for(let i=0;i<=4;i++){let v=low+(high-low)*i/4,py=265-i*230/4;svg.append(svgNode('line',{x1:100,y1:py,x2:810,y2:py,stroke:'#dce3ed'}),svgNode('text',{x:88,y:py+5,'text-anchor':'end','font-size':14,fill:'#506079'},v.toFixed(2)))}
+ svg.append(svgNode('line',{x1:100,y1:35,x2:100,y2:265,stroke:'#506079'}),svgNode('text',{x:460,y:325,'text-anchor':'middle','font-size':14},'조회 날짜 (Asia/Seoul)'));
+ if(records.length>=2)svg.append(svgNode('polyline',{points:records.map(r=>x(r)+','+y(r)).join(' '),fill:'none',stroke:'#174fc6','stroke-width':2}));
+ const labels=new Set([0,Math.floor((records.length-1)/2),records.length-1]);
+ records.forEach((r,i)=>{const c=svgNode('circle',{cx:x(r),cy:y(r),r:6,fill:'#174fc6',tabindex:0,role:'button','aria-label':r.query_date+' '+r.display_value+' KRW; '+r.daily_comparison});c.append(svgNode('title',{},r.query_date+' · '+r.display_value+' KRW · 관측 '+r.source_observed_date+' (시각 미제공) · 정상 조회 '+stamp(r.queried_at)));['mouseenter','focus','click'].forEach(e=>c.addEventListener(e,()=>pointInfo(r)));c.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pointInfo(r)}});svg.append(c);if(labels.has(i))svg.append(svgNode('text',{x:x(r),y:295,'text-anchor':'middle','font-size':14},r.query_date))});
+}
+function render(data){
+ records=data.records;const latest=records.at(-1);
+ el('value').textContent=latest?'100 JPY = '+latest.display_value+' KRW':'저장된 값 없음';
+ el('change').textContent=latest?latest.comparison:'';
+ el('times').textContent=latest?'출처 관측 날짜: '+latest.source_observed_date+' (관측 시각 미제공) · 마지막 정상 조회: '+stamp(latest.queried_at):'';
+ const failed=data.status.ok===false;el('notice').hidden=!failed;
+ el('notice').textContent=failed?'조회 실패: '+data.status.error+' · '+(latest?'기존 그래프와 기록을 보존했습니다. 표시값은 오래된 값일 수 있습니다.':'정상 저장 기록이 없습니다.')+' · 실패한 조회 시각: '+stamp(data.status.last_attempt_at):'';
+ el('audit').textContent=latest?JSON.stringify({signal_id:latest.signal_id,unit:latest.unit,source_url:latest.source_url,base:latest.base,quote:latest.quote,raw_rate:latest.raw_rate,formula:latest.formula,normalized_value:latest.normalized_value,display_value:latest.display_value,previous_normalized_value:latest.previous_normalized_value,comparison:latest.comparison,source_observed_date:latest.source_observed_date,source_observed_at:latest.source_observed_at,queried_at:latest.queried_at},null,2)+'\n\n원본 HTTP 응답:\n'+latest.raw_response:'기록 없음';
+ el('rows').replaceChildren();
+ if(!records.length){const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=5;td.textContent='아직 저장된 환율이 없습니다.';tr.append(td);el('rows').append(tr)}
+ records.forEach(r=>{const tr=document.createElement('tr');[r.query_date,r.display_value+' KRW',r.daily_comparison,r.source_observed_date+' / 시각 미제공',stamp(r.queried_at)].forEach(v=>{const td=document.createElement('td');td.textContent=v;tr.append(td)});el('rows').append(tr)});graph()
+}
+async function load(refresh=false){el('refresh').disabled=true;try{const response=await fetch(refresh?'/api/refresh':'/api/records',{method:refresh?'POST':'GET'});const data=await response.json();if(!Array.isArray(data.records))throw Error('저장 응답 형식 오류');render(data)}catch(e){el('notice').hidden=false;el('notice').textContent='조회 실패: '+e.message+' · 기존 그래프와 기록을 보존했습니다. 표시값은 오래된 값일 수 있습니다.'}finally{el('refresh').disabled=false}}
+el('refresh').onclick=()=>load(true);el('download').onclick=()=>{const a=document.createElement('a'),u=URL.createObjectURL(new Blob([JSON.stringify(records,null,2)],{type:'application/json'}));a.href=u;a.download='jpy-krw-daily-records.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)};load();
+</script></html>

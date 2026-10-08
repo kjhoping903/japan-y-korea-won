@@ -1,0 +1,614 @@
+﻿{
+  "audit_created_at": "2026-10-08T06:43:48.108739+00:00",
+  "scope": "Local implementation audit against verified public contract 2.0.0 and official 35-condition registry.",
+  "agents_file_exists": false,
+  "user_agents_instructions_applied": true,
+  "asset_root_exists": true,
+  "missing_assets": [],
+  "manifest_byte_sha256_check": "PASS",
+  "fixture_canonical_hash_check": "NOT EXECUTED: aleph-json-canonical-v1 is named but its algorithm is not defined in the supplied package",
+  "git_status": {
+    "exit_code": 128,
+    "stdout": "",
+    "stderr": "fatal: not a git repository (or any of the parent directories): .git"
+  },
+  "git_log_latest": {
+    "exit_code": 128,
+    "stdout": "",
+    "stderr": "fatal: not a git repository (or any of the parent directories): .git"
+  },
+  "python_tests": {
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "test_directions_validation_and_precision (test_app.TrackerTests.test_directions_validation_and_precision) ... ok\ntest_same_day_next_day_failure_preserves_records (test_app.TrackerTests.test_same_day_next_day_failure_preserves_records) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 0.038s\n\nOK"
+  },
+  "javascript_dom_model_tests": {
+    "exit_code": 0,
+    "stdout": "PASS: empty, one point, same-day update, next-date addition without invented dates, point details, failure preservation, Y-axis ticks and shared table values",
+    "stderr": ""
+  },
+  "browser_render_test": "NOT EXECUTED: no connected browser at previous inspection",
+  "public_https_url": null,
+  "commit_pinned_source_url": null,
+  "official_receipts": [],
+  "manifest_checks": [
+    {
+      "path": "README.md",
+      "exists": true,
+      "byte_count_matches": true,
+      "sha256_matches": true
+    },
+    {
+      "path": "adapter-reset.example.js",
+      "exists": true,
+      "byte_count_matches": true,
+      "sha256_matches": true
+    },
+    {
+      "path": "criterion-registry.json",
+      "exists": true,
+      "byte_count_matches": true,
+      "sha256_matches": true
+    },
+    {
+      "path": "fixture-manifest.json",
+      "exists": true,
+      "byte_count_matches": true,
+      "sha256_matches": true
+    },
+    {
+      "path": "fixture.schema.json",
+      "exists": true,
+      "byte_count_matches": true,
+      "sha256_matches": true
+    },
+    {
+      "path": "fixtures/auth-401.json",
+      "exists": true,
+      "byte_count_matches": true,
+      "sha256_matches": true
+    },
+    {
+      "path": "fixtures/normal-d1-a.json",
+      "exists": true,
+      "byte_count_matches": true,
+      "sha256_matches": true
+    },
+    {
+      "path": "fixtures/normal-d1-b.json",
+      "exists": true,
+      "byte_count_matches": true,
+      "sha256_matches": true
+    },
+    {
+      "path": "fixtures/normal-d2.json",
+      "exists": true,
+      "byte_count_matches": true,
+      "sha256_matches": true
+    },
+    {
+      "path": "fixtures/offline.json",
+      "exists": true,
+      "byte_count_matches": true,
+      "sha256_matches": true
+    },
+    {
+      "path": "fixtures/rate-429.json",
+      "exists": true,
+      "byte_count_matches": true,
+      "sha256_matches": true
+    },
+    {
+      "path": "fixtures/recover-d2.json",
+      "exists": true,
+      "byte_count_matches": true,
+      "sha256_matches": true
+    },
+    {
+      "path": "fixtures/schema-break.json",
+      "exists": true,
+      "byte_count_matches": true,
+      "sha256_matches": true
+    },
+    {
+      "path": "fixtures/timeout.json",
+      "exists": true,
+      "byte_count_matches": true,
+      "sha256_matches": true
+    },
+    {
+      "path": "normalized-reading.schema.json",
+      "exists": true,
+      "byte_count_matches": true,
+      "sha256_matches": true
+    },
+    {
+      "path": "public-contract.json",
+      "exists": true,
+      "byte_count_matches": true,
+      "sha256_matches": true
+    },
+    {
+      "path": "reading-status.schema.json",
+      "exists": true,
+      "byte_count_matches": true,
+      "sha256_matches": true
+    }
+  ],
+  "official_contract": {
+    "contract_version": "2.0.0",
+    "package_id": "aleph-t04-real-information-board-public-contract-v2",
+    "fixture_contract_version": "1.1.0",
+    "condition_count": 35,
+    "official_criteria": [
+      {
+        "id": "T04-C01",
+        "ordinal": 1,
+        "required": true,
+        "condition_text_ko": "제출한 모든 URL(결과물·소스)은 계정 생성 없이 새 시크릿 창에서 열린다.",
+        "verification_mode": "public_access",
+        "fixture_ids": [],
+        "fixture_limit": null
+      },
+      {
+        "id": "T04-C02",
+        "ordinal": 2,
+        "required": true,
+        "condition_text_ko": "제출한 모든 URL(결과물·소스)은 로그인 없이 새 시크릿 창에서 열린다.",
+        "verification_mode": "public_access",
+        "fixture_ids": [],
+        "fixture_limit": null
+      },
+      {
+        "id": "T04-C03",
+        "ordinal": 3,
+        "required": true,
+        "condition_text_ko": "비개인 공개 원천의 실제 동적 값을 조회할 수 있다.",
+        "verification_mode": "live_receipt_and_review",
+        "fixture_ids": [],
+        "fixture_limit": null
+      },
+      {
+        "id": "T04-C04",
+        "ordinal": 4,
+        "required": true,
+        "condition_text_ko": "실제 조회 화면에 값이 표시된다.",
+        "verification_mode": "live_and_deterministic",
+        "fixture_ids": [
+          "T04-NORMAL-D1-A"
+        ],
+        "fixture_limit": null
+      },
+      {
+        "id": "T04-C05",
+        "ordinal": 5,
+        "required": true,
+        "condition_text_ko": "실제 조회 화면에 단위가 표시된다.",
+        "verification_mode": "live_and_deterministic",
+        "fixture_ids": [
+          "T04-NORMAL-D1-A"
+        ],
+        "fixture_limit": null
+      },
+      {
+        "id": "T04-C06",
+        "ordinal": 6,
+        "required": true,
+        "condition_text_ko": "실제 조회 화면에 출처가 표시된다.",
+        "verification_mode": "live_and_deterministic",
+        "fixture_ids": [
+          "T04-NORMAL-D1-A"
+        ],
+        "fixture_limit": null
+      },
+      {
+        "id": "T04-C07",
+        "ordinal": 7,
+        "required": true,
+        "condition_text_ko": "실제 조회 화면에 출처 시각이 표시된다.",
+        "verification_mode": "live_and_deterministic",
+        "fixture_ids": [
+          "T04-NORMAL-D1-A"
+        ],
+        "fixture_limit": null
+      },
+      {
+        "id": "T04-C08",
+        "ordinal": 8,
+        "required": true,
+        "condition_text_ko": "실제 조회 화면에 조회 시각이 표시된다.",
+        "verification_mode": "live_and_deterministic",
+        "fixture_ids": [
+          "T04-NORMAL-D1-A"
+        ],
+        "fixture_limit": null
+      },
+      {
+        "id": "T04-C09",
+        "ordinal": 9,
+        "required": true,
+        "condition_text_ko": "실제 조회 화면에 기준 시간대가 표시된다.",
+        "verification_mode": "live_and_deterministic",
+        "fixture_ids": [
+          "T04-NORMAL-D1-A"
+        ],
+        "fixture_limit": null
+      },
+      {
+        "id": "T04-C10",
+        "ordinal": 10,
+        "required": true,
+        "condition_text_ko": "정상 한 건의 원자료·저장값·화면값이 일치한다.",
+        "verification_mode": "live_and_deterministic",
+        "fixture_ids": [
+          "T04-NORMAL-D1-A"
+        ],
+        "fixture_limit": null
+      },
+      {
+        "id": "T04-C11",
+        "ordinal": 11,
+        "required": true,
+        "condition_text_ko": "브라우저 코드·배포 파일·네트워크 응답·Git 기록에 비밀키 원문이 0건이다.",
+        "verification_mode": "source_and_runtime_scan",
+        "fixture_ids": [],
+        "fixture_limit": null
+      },
+      {
+        "id": "T04-C12",
+        "ordinal": 12,
+        "required": true,
+        "condition_text_ko": "느린 외부 응답을 합성 재생하면 별도 실패 상태가 표시된다.",
+        "verification_mode": "deterministic_replay",
+        "fixture_ids": [
+          "T04-TIMEOUT"
+        ],
+        "fixture_limit": null
+      },
+      {
+        "id": "T04-C13",
+        "ordinal": 13,
+        "required": true,
+        "condition_text_ko": "외부 원천의 401 또는 403 거절을 합성 재생하면 별도 실패 상태가 표시된다.",
+        "verification_mode": "deterministic_replay",
+        "fixture_ids": [
+          "T04-AUTH-401"
+        ],
+        "fixture_limit": null
+      },
+      {
+        "id": "T04-C14",
+        "ordinal": 14,
+        "required": true,
+        "condition_text_ko": "외부 원천의 호출 제한을 합성 재생하면 별도 실패 상태가 표시된다.",
+        "verification_mode": "deterministic_replay",
+        "fixture_ids": [
+          "T04-RATE-429"
+        ],
+        "fixture_limit": null
+      },
+      {
+        "id": "T04-C15",
+        "ordinal": 15,
+        "required": true,
+        "condition_text_ko": "오프라인 상태를 합성 재생하면 별도 실패 상태가 표시된다.",
+        "verification_mode": "deterministic_replay",
+        "fixture_ids": [
+          "T04-OFFLINE"
+        ],
+        "fixture_limit": null
+      },
+      {
+        "id": "T04-C16",
+        "ordinal": 16,
+        "required": true,
+        "condition_text_ko": "응답 형식 변경을 합성 재생하면 별도 실패 상태가 표시된다.",
+        "verification_mode": "deterministic_replay",
+        "fixture_ids": [
+          "T04-SCHEMA-BREAK"
+        ],
+        "fixture_limit": null
+      },
+      {
+        "id": "T04-C17",
+        "ordinal": 17,
+        "required": true,
+        "condition_text_ko": "실패 뒤 마지막 정상값이 지워지지 않는다.",
+        "verification_mode": "deterministic_replay",
+        "fixture_ids": [
+          "T04-TIMEOUT",
+          "T04-AUTH-401",
+          "T04-RATE-429",
+          "T04-OFFLINE",
+          "T04-SCHEMA-BREAK"
+        ],
+        "fixture_limit": null
+      },
+      {
+        "id": "T04-C18",
+        "ordinal": 18,
+        "required": true,
+        "condition_text_ko": "실패 뒤 마지막 정상값에 오래된 값 표시가 붙는다.",
+        "verification_mode": "deterministic_replay",
+        "fixture_ids": [
+          "T04-TIMEOUT",
+          "T04-AUTH-401",
+          "T04-RATE-429",
+          "T04-OFFLINE",
+          "T04-SCHEMA-BREAK"
+        ],
+        "fixture_limit": null
+      },
+      {
+        "id": "T04-C19",
+        "ordinal": 19,
+        "required": true,
+        "condition_text_ko": "실패 상태에 다시 시도 행동이 보이며, 공개 asset T04-RECOVER-D2를 재생하면 상태가 fresh, error_code가 none으로 돌아오고 다음 날짜의 일별 기록이 정확히 한 건 추가된다.",
+        "verification_mode": "deterministic_replay",
+        "fixture_ids": [
+          "T04-TIMEOUT",
+          "T04-AUTH-401",
+          "T04-RATE-429",
+          "T04-OFFLINE",
+          "T04-SCHEMA-BREAK",
+          "T04-RECOVER-D2"
+        ],
+        "expected_recovery_transition": {
+          "failure_fixture_id": "T04-TIMEOUT",
+          "recovery_fixture_id": "T04-RECOVER-D2",
+          "before_retry": {
+            "freshness": "stale",
+            "error_code": "timeout",
+            "daily_row_count": 1,
+            "last_good_value": 105,
+            "record_date": "2026-08-24"
+          },
+          "after_retry": {
+            "freshness": "fresh",
+            "error_code": "none",
+            "daily_row_count": 2,
+            "new_next_date_rows": 1,
+            "stored_value": 120,
+            "record_date": "2026-08-25"
+          }
+        },
+        "fixture_limit": null
+      },
+      {
+        "id": "T04-C20",
+        "ordinal": 20,
+        "required": true,
+        "condition_text_ko": "기준 시간대의 같은 날짜에 여러 번 성공해도 일별 기록은 한 건이다.",
+        "verification_mode": "deterministic_replay",
+        "fixture_ids": [
+          "T04-NORMAL-D1-A",
+          "T04-NORMAL-D1-B"
+        ],
+        "fixture_limit": null
+      },
+      {
+        "id": "T04-C21",
+        "ordinal": 21,
+        "required": true,
+        "condition_text_ko": "기준 시간대의 다음 날짜에 성공하면 새 일별 기록이 생긴다.",
+        "verification_mode": "deterministic_replay",
+        "fixture_ids": [
+          "T04-NORMAL-D1-A",
+          "T04-NORMAL-D1-B",
+          "T04-NORMAL-D2"
+        ],
+        "fixture_limit": null
+      },
+      {
+        "id": "T04-C22",
+        "ordinal": 22,
+        "required": true,
+        "condition_text_ko": "서로 다른 Asia/Seoul 실제 날짜에 조회한 공개 원천 기록이 정확히 2건 보존되어 있다.",
+        "verification_mode": "live_receipt_and_review",
+        "fixture_ids": [],
+        "fixture_limit": null
+      },
+      {
+        "id": "T04-C23",
+        "ordinal": 23,
+        "required": true,
+        "condition_text_ko": "두 기록 각각의 공개 원천 URL·원천 관측 시각·정규화 값·단위가 저장된 일별 값과 화면 표시값에서 일치한다.",
+        "verification_mode": "live_receipt_and_review",
+        "fixture_ids": [],
+        "fixture_limit": null
+      },
+      {
+        "id": "T04-C24",
+        "ordinal": 24,
+        "required": true,
+        "condition_text_ko": "두 기록을 조회 날짜순으로 놓고 같은 계산 규칙으로 어제 대비 변화값을 다시 계산하면 화면값과 일치한다.",
+        "verification_mode": "live_receipt_and_review",
+        "fixture_ids": [
+          "T04-NORMAL-D1-A",
+          "T04-NORMAL-D1-B",
+          "T04-NORMAL-D2"
+        ],
+        "fixture_limit": "합성 fixture는 계산 경로만 보조한다. 서로 다른 실제 날짜 두 건과 실제 값 재계산은 별도 live 증거로 확인한다."
+      },
+      {
+        "id": "T04-C25",
+        "ordinal": 25,
+        "required": true,
+        "condition_text_ko": "공개 심사 화면과 제출 파일에 실제 개인정보 또는 개인 기록이 0건이다.",
+        "verification_mode": "source_and_runtime_scan",
+        "fixture_ids": [],
+        "fixture_limit": null
+      },
+      {
+        "id": "T04-C26",
+        "ordinal": 26,
+        "required": true,
+        "condition_text_ko": "다섯 실패 재생에는 합성 시험값만 사용한다.",
+        "verification_mode": "deterministic_replay",
+        "fixture_ids": [
+          "T04-TIMEOUT",
+          "T04-AUTH-401",
+          "T04-RATE-429",
+          "T04-OFFLINE",
+          "T04-SCHEMA-BREAK"
+        ],
+        "fixture_limit": null
+      },
+      {
+        "id": "T04-C27",
+        "ordinal": 27,
+        "required": true,
+        "condition_text_ko": "짧은 확인 방법에 ① 어디로 가나요, ② 3단계 이내 무엇을 하나요, ③ 무엇이 보이면 통과인가요, ④ 안 될 때 무엇이 보이나요가 구분되어 있다.",
+        "verification_mode": "submission_text",
+        "fixture_ids": [],
+        "fixture_limit": null
+      },
+      {
+        "id": "T04-C28",
+        "ordinal": 28,
+        "required": true,
+        "condition_text_ko": "제출문에 ① AI에게 맡긴 일, ② 학생이 직접 판단한 일, ③ AI 제안을 따르지 않은 일(없으면 없었던 이유)이 구분되어 있다.",
+        "verification_mode": "submission_text",
+        "fixture_ids": [],
+        "fixture_limit": null
+      },
+      {
+        "id": "T04-C29",
+        "ordinal": 29,
+        "required": true,
+        "condition_text_ko": "제출한 모든 URL(결과물·소스)은 인증 없이 새 시크릿 창에서 열린다.",
+        "verification_mode": "public_access",
+        "fixture_ids": [],
+        "fixture_limit": null
+      },
+      {
+        "id": "T04-C30",
+        "ordinal": 30,
+        "required": true,
+        "condition_text_ko": "제출한 모든 URL(결과물·소스)은 초대 없이 새 시크릿 창에서 열린다.",
+        "verification_mode": "public_access",
+        "fixture_ids": [],
+        "fixture_limit": null
+      },
+      {
+        "id": "T04-C31",
+        "ordinal": 31,
+        "required": true,
+        "condition_text_ko": "제출한 모든 URL(결과물·소스)은 비밀번호 입력 없이 새 시크릿 창에서 열린다.",
+        "verification_mode": "public_access",
+        "fixture_ids": [],
+        "fixture_limit": null
+      },
+      {
+        "id": "T04-C32",
+        "ordinal": 32,
+        "required": true,
+        "condition_text_ko": "제출한 모든 URL(결과물·소스)은 OAuth 연결 없이 새 시크릿 창에서 열린다.",
+        "verification_mode": "public_access",
+        "fixture_ids": [],
+        "fixture_limit": null
+      },
+      {
+        "id": "T04-C33",
+        "ordinal": 33,
+        "required": true,
+        "condition_text_ko": "제출한 모든 URL(결과물·소스)은 CAPTCHA 통과 없이 새 시크릿 창에서 열린다.",
+        "verification_mode": "public_access",
+        "fixture_ids": [],
+        "fixture_limit": null
+      },
+      {
+        "id": "T04-C34",
+        "ordinal": 34,
+        "required": true,
+        "condition_text_ko": "결과물 URL 필드에 HTTPS URL 한 개가 제출되어 있다.",
+        "verification_mode": "submission_field",
+        "fixture_ids": [],
+        "fixture_limit": null
+      },
+      {
+        "id": "T04-C35",
+        "ordinal": 35,
+        "required": true,
+        "condition_text_ko": "소스 URL 필드에 HTTPS URL 한 개가 제출되어 있고, URL에는 전체 소스 상태를 다시 받을 수 있는 40자리 또는 64자리 소문자 16진수 commit 식별자가 포함되어 있다.",
+        "verification_mode": "submission_field",
+        "fixture_ids": [],
+        "fixture_limit": null
+      }
+    ]
+  },
+  "official_fixture_app_replay": "NOT EXECUTED: app has no official fixture input path or synthetic UI",
+  "source_files_inspected": [
+    {
+      "path": "app.py",
+      "byte_count": 7462,
+      "sha256": "d45008746c0de1cd46215e7b96654bd784b8e7396487f298b8e4196c26c9c31b"
+    },
+    {
+      "path": "index.html",
+      "byte_count": 9977,
+      "sha256": "5c6b73793b53f809ba8c5ad53ccaa7fa035cd84574e9793d3e884e0fe395ef72"
+    },
+    {
+      "path": "README.md",
+      "byte_count": 4109,
+      "sha256": "5f84eaad7066c804f2e10bc4d74e9b7cd32bcb7188ef4d6fb0cb3afe75ee4dbd"
+    },
+    {
+      "path": "test_app.py",
+      "byte_count": 2884,
+      "sha256": "dd8f0021d4eb424e125929784a7143ebcdb97fa47b716a9925bf8b10d90bfb75"
+    },
+    {
+      "path": "test_ui.mjs",
+      "byte_count": 2882,
+      "sha256": "8f7c2a7eaa1f4e65d139cd27345b0d802935d902ea19be57f81778b35d87943a"
+    }
+  ],
+  "potential_secret_locations": [],
+  "secret_scan_limits": "Pattern scan only. Git history, public deployment and public source do not exist here; their checks are not passed.",
+  "real_storage": {
+    "rows": [
+      {
+        "signal_id": "jpy-krw-per-100-jpy",
+        "unit": "KRW/100 JPY",
+        "normalized_value": "846.0600",
+        "raw_rate": "8.4606",
+        "base": "JPY",
+        "quote": "KRW",
+        "formula": "100 × rate",
+        "source_observed_date": "2026-10-07",
+        "source_observed_at": null,
+        "source_time_precision": "date",
+        "queried_at": "2026-10-08T06:25:08.753820+00:00",
+        "query_date": "2026-10-08",
+        "raw_response": "{\"date\":\"2026-10-07\",\"base\":\"JPY\",\"quote\":\"KRW\",\"rate\":8.4606}",
+        "source_url": "https://api.frankfurter.dev/v2/providers/ecb/rate/jpy/krw",
+        "previous_normalized_value": "846.0600",
+        "comparison": "이전 기록과 동일"
+      }
+    ],
+    "count": 1,
+    "distinct_kst_dates": [
+      "2026-10-08"
+    ],
+    "status": {
+      "ok": true,
+      "last_attempt_at": "2026-10-08T06:25:08.753820+00:00"
+    },
+    "table_definition": "CREATE TABLE fx_daily (query_date TEXT PRIMARY KEY, payload TEXT NOT NULL)",
+    "real_second_day_status": "WAITING"
+  },
+  "numeric_string_probe": {
+    "accepted": true,
+    "normalized_value_type": "str",
+    "missing_required_fields": [
+      "source_name",
+      "source_time",
+      "fetched_at",
+      "record_timezone",
+      "record_date"
+    ]
+  },
+  "all_T04_conditions_satisfied": false
+}
